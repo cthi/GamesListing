@@ -3,13 +3,10 @@
 var _ = require('lodash');
 
 import React, {
-  Image,
-  StyleSheet,
   ListView,
-  Text,
-  TouchableNativeFeedback,
-  View,
 } from 'react-native';
+
+import GameCell from './GameCell';
 
 class GameList extends React.Component {
   constructor(props) {
@@ -19,7 +16,6 @@ class GameList extends React.Component {
 
     this.state = {
       dataSource: ds.cloneWithRows([]),
-      loaded: false,
     };
   }  
 
@@ -43,58 +39,16 @@ class GameList extends React.Component {
       console.warn(error)
     });
   }
-  
-  render() {
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
 
+  render() {
     return (
-      <View
-        style={styles.rootContainer}>
-        <ToolbarAndroid
-          title='Games'
-          titleColor='white'
-          style={styles.toolbar} />
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderCell}
-        />
-      </View>
+      <ListView
+        dataSource={this.state.dataSource}
+        renderRow={(game) => <GameCell game={game}/>}
+      />
     );
   }
 }
 
-var styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-    padding: 16,
-  },
-  rightContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    color: 'black',
-    marginLeft: 16,
-  },
-  circleImg: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-  },
-  toolbar: {
-    height: 56,
-    backgroundColor: '#009688',
-    elevation: 3,
-  },
-});
-
 module.exports = GameList;
+
